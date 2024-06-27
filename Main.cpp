@@ -1,31 +1,9 @@
 #include <iostream>
 #include <string>
 
-std::string multiplyString(const std::string& str, int n) {
-    std::string result;
-    for (int i = 0; i < n; i++) {
-        result += str;
-    }
-    return result;
-}
+std::string multiplyString(const std::string& str, int n);
 
-int showMenu() {
-    int input;
-    system("cls");
-
-    std::cout << "\nSistem Informasi Mahasiswa" << std::endl;
-    std::cout << multiplyString("=",30) << std::endl;
-    std::cout << "1. Tambah data Mahasiswa" << std::endl;
-    std::cout << "2. Tampilkan data Mahasiswa" << std::endl;
-    std::cout << "3. Ubah data Mahasiswa" << std::endl;
-    std::cout << "4. Hapus data Mahasiswa" << std::endl;
-    std::cout << "5. Keluar" << std::endl;
-    std::cout << multiplyString("=",30) << std::endl;
-    std::cout << "Pilih [1-5]: ";
-
-    std::cin >> input;
-    return input;
-}
+int showMenu();
 
 int main () {
     int user_option = showMenu();
@@ -66,4 +44,30 @@ int main () {
 
     std::cin.get();
     return 0;
+}
+
+std::string multiplyString(const std::string& str, int n) {
+    std::string result;
+    for (int i = 0; i < n; i++) {
+        result += str;
+    }
+    return result;
+}
+
+int showMenu() {
+    int input;
+    system("cls");
+
+    std::cout << "\nSistem Informasi Mahasiswa" << std::endl;
+    std::cout << multiplyString("=",30) << std::endl;
+    std::cout << "1. Tambah data Mahasiswa" << std::endl;
+    std::cout << "2. Tampilkan data Mahasiswa" << std::endl;
+    std::cout << "3. Ubah data Mahasiswa" << std::endl;
+    std::cout << "4. Hapus data Mahasiswa" << std::endl;
+    std::cout << "5. Keluar" << std::endl;
+    std::cout << multiplyString("=",30) << std::endl;
+    std::cout << "Pilih [1-5]: ";
+
+    std::cin >> input;
+    return input;
 }
