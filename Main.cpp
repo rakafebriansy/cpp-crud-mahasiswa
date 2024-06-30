@@ -6,9 +6,9 @@
 //windows gcc compiler
 struct Mahasiswa {
     int pk;
-    char nim[11];
-    char nama[26];
-    char jurusan[26];
+    char nim[16];
+    char nama[40];
+    char jurusan[40];
 };
 
 //another compiler
@@ -35,6 +35,8 @@ void insertMahasiswa(std::fstream &data);
 
 void showMahasiswa(std::fstream &data);
 
+void updateMahasiswa(std::fstream &data);
+
 int main () {
 
     std::fstream data;
@@ -57,6 +59,9 @@ int main () {
                 break;
             case UPDATE:
                 std::cout << "Mengubah data Mahasiswa" << std::endl;
+                showMahasiswa(data);
+                updateMahasiswa(data);
+                showMahasiswa(data);
                 break;
             case DELETE:
                 std::cout << "Menghapus data Mahasiswa" << std::endl;
@@ -160,11 +165,11 @@ void insertMahasiswa(std::fstream &data) {
     }
 
     std::cout << "NIM: ";
-    std::cin.getline(input_mahasiswa.nim, 11); //get array of char input (can read space, newline, etc.)
+    std::cin.getline(input_mahasiswa.nim, 16); //get array of char input (can read space, newline, etc.)
     std::cout << "Nama: ";
-    std::cin.getline(input_mahasiswa.nama, 26);
+    std::cin.getline(input_mahasiswa.nama, 40);
     std::cout << "Jurusan: ";
-    std::cin.getline(input_mahasiswa.jurusan, 26);
+    std::cin.getline(input_mahasiswa.jurusan, 40);
 
     writeData(data, size + 1, input_mahasiswa);
 }
@@ -181,4 +186,28 @@ void showMahasiswa(std::fstream &data) {
         std::cout << mahasiswa.nama << "\t";
         std::cout << mahasiswa.jurusan << std::endl;
     }
+}
+
+void updateMahasiswa(std::fstream &data) {
+    int number;
+    Mahasiswa mahasiswa;
+    std::cout << "Pilih no: ";
+    std::cin >> number;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    mahasiswa = readData(data, number);
+    std::cout << "\n\nPilihan data:" << std::endl;
+    std::cout << "NIM: " << mahasiswa.nim << std::endl;
+    std::cout << "Nama: " << mahasiswa.nama << std::endl;
+    std::cout << "Jurusan: " << mahasiswa.jurusan << std::endl;
+    
+    std::cout << "\nMerubah data: " << std::endl;
+    std::cout << "NIM: ";
+    std::cin.getline(mahasiswa.nim, 16);
+    std::cout << "Nama: ";
+    std::cin.getline(mahasiswa.nama, 40);
+    std::cout << "Jurusan: ";
+    std::cin.getline(mahasiswa.jurusan, 40);
+    
+    writeData(data, number, mahasiswa);
 }
