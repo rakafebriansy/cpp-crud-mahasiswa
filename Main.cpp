@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <limits>
+#include <cstring>
 
 //windows gcc compiler
 struct Mahasiswa {
@@ -37,6 +38,8 @@ void showMahasiswa(std::fstream &data);
 
 void updateMahasiswa(std::fstream &data);
 
+void deleteMahasiswa(std::fstream &data);
+
 int main () {
 
     std::fstream data;
@@ -65,6 +68,10 @@ int main () {
                 break;
             case DELETE:
                 std::cout << "Menghapus data Mahasiswa" << std::endl;
+                showMahasiswa(data);
+                deleteMahasiswa(data);
+                checkDatabase(data);
+                showMahasiswa(data);
                 break;
             default:
                 std::cout << "Pilihan tidak ditemukan." << std::endl;
@@ -84,7 +91,6 @@ int main () {
 
     std::cout << "Program berakhir..." << std::endl;
 
-    std::cin.get();
     return 0;
 }
 
@@ -210,4 +216,41 @@ void updateMahasiswa(std::fstream &data) {
     std::cin.getline(mahasiswa.jurusan, 40);
     
     writeData(data, number, mahasiswa);
+}
+
+void deleteMahasiswa(std::fstream &data) {
+    int number, size, offset;
+    Mahasiswa temp_mahasiswa;
+    Mahasiswa blank_mahasiswa = {};
+    std::fstream temp_data;
+
+    size = getDataSize(data);
+
+    std::cout << "Hapus nomor: ";
+    std::cin >> number;
+
+    writeData(data, number, blank_mahasiswa);
+
+    temp_data.open("temp.dat", std::ios::trunc | std::ios::out | std::ios::in | std::ios::binary);
+    offset = 0;
+    for (int i = 1; i <= size; i++) {
+        temp_mahasiswa = readData(data,i);
+        if (std::strcmp(temp_mahasiswa.nama, "") != 0) {
+            writeData(temp_data,i - offset,temp_mahasiswa);
+        } else {
+            offset++;
+        }
+    }
+    data.close();
+
+    data.open("data.bin", std::ios::trunc | std::ios::out | std::ios::binary);
+    data.close();
+
+    size = getDataSize(temp_data);
+    data.open("data.bin", std::ios::out | std::ios::in | std::ios::binary);
+    for (int i = 1; i <= size; i++) {
+        temp_mahasiswa = readData(temp_data,i);
+        writeData(data,i,temp_mahasiswa);
+    }
+    data.close();
 }
